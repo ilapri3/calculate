@@ -1,0 +1,127 @@
+import re
+
+input_str = input()
+
+ans = 0
+ans_add = 1
+hard_ans = 0
+right_ans = 0
+left_ans = 0
+ans_1 = ''
+ans_1_add = ''
+array = []
+new_oper = []
+minus_array = []
+left_array = []
+right_array = []
+mul_array = []
+numbers = {}
+
+
+numbers['плюс'], numbers['минус'], numbers['умножить'] = 0, 0, 1
+numbers['ноль'],numbers['0'] = 0, 'ноль'
+numbers['один'],numbers['1'] = 1, 'один'
+numbers['два'], numbers['2'] = 2, 'два'
+numbers['три'], numbers['3'] = 3, 'три'
+numbers['четыре'], numbers['4'] = 4, 'четыре'
+numbers['пять'], numbers['5'] = 5, 'пять'
+numbers['шесть'], numbers['6'] = 6, 'шесть'
+numbers['семь'], numbers['7'] = 7, 'семь'
+numbers['восемь'], numbers['8'] = 8, 'восемь'
+numbers['девять'], numbers['9'] = 9, 'девять'
+numbers['десять'], numbers['10'] = 10, 'десять'
+numbers['одиннадцать'], numbers['11'] = 11, 'одиннадцать'
+numbers['двенадцать'], numbers['12'] = 12, 'двенадцать'
+numbers['тринадцать'], numbers['13'] = 13, 'тринадцать'
+numbers['четырнадцать'], numbers['14'] = 14, 'четырнадцать'
+numbers['пятнадцать'], numbers['15'] = 15, 'пятнадцать'
+numbers['шестнадцать'], numbers['16'] = 16, 'шестнадцать'
+numbers['семнадцать'], numbers['17'] = 17, 'семнадцать'
+numbers['восемнадцать'], numbers['18'] = 18, 'восемнадцать'
+numbers['девятнадцать'], numbers['19'] = 19, 'девятнадцать'
+numbers['двадцать'], numbers['20'] = 20, 'двацать'
+numbers['тридцать'], numbers['30'] = 30, 'тридцать'
+numbers['сорок'], numbers['40'] = 40, 'сорок'
+numbers['пятьдесят'], numbers['50'] = 50, 'пятьдесят'
+numbers['шестьдесят'], numbers['60'] = 60, 'шестьдесят'
+numbers['семьдесят'], numbers['70'] = 70, 'семьдесят'
+numbers['восемьдесят'], numbers['80'] = 80, 'восемьдесят'
+numbers['девяносто'], numbers['90'] = 90, 'девяносто'
+numbers['сто'], numbers['100'] = 100, 'сто'
+numbers['двести'], numbers['200'] = 200, 'двести'
+numbers['триста'], numbers['300'] = 300, 'триста'
+numbers['четыреста'], numbers['400'] = 400, 'четыреста'
+numbers['пятьсот'], numbers['500'] = 500, 'пятьсот'
+numbers['шестьсот'], numbers['600'] = 600, 'шестьсот'
+numbers['семьсот'], numbers['700'] = 700, 'семьсот'
+numbers['восемьсот'], numbers['800'] = 800, 'восемьсот'
+numbers['девятьсот'], numbers['900'] = 900, 'девятьсот'
+
+operands=re.findall(r'\b\w+\b',input_str)
+
+if 'плюс' in operands:
+    for i in range(len(operands)):
+        if numbers[operands[i]]:
+            ans += numbers[operands[i]]
+    
+    if 0 <= ans <= 19:
+        print(numbers[str(ans)])
+    elif ans > 19 and ans%10 == 0:
+        print(numbers[str(ans)])
+    else:
+        for i in range(len(str(ans))):
+            array.append(int(str(ans)[i]) * (10 ** (len(str(ans))-i-1)))
+        for el in array:
+            ans_1 += numbers[str(el)] + ' '
+        print(ans_1)
+
+
+elif 'умножить' in operands:
+    l1 = operands.index('умножить')
+    r1 = operands.index('на')
+    left_array = operands[:l1]
+    right_array= operands[r1+1:]
+    for i in range(len(left_array)):
+        if left_array[i] in numbers:
+            left_ans+=numbers[left_array[i]]
+    for i in range(len(right_array)):
+        if right_array[i] in numbers:
+            right_ans+=numbers[right_array[i]]
+    total_ans_mul = left_ans * right_ans
+        
+    if 0 <= total_ans_mul <= 19:
+        print(numbers[str(total_ans_mul)])
+    elif total_ans_mul > 19 and total_ans_mul%10 == 0:
+        print(numbers[str(total_ans_mul)])
+    elif len(str(total_ans_mul)) == 2:
+        for i in range(len(str(total_ans_mul))):
+            array.append(int(str(total_ans_mul)[i]) * (10 ** (len(str(total_ans_mul))-i-1)))
+        for el in array:
+            ans_1_add += numbers[str(el)] + ' '
+        print(ans_1_add)
+    elif len(str(total_ans_mul)) == 3:
+        for i in range(len(str(total_ans_mul))):
+            array.append(int(str(total_ans_mul)[i]) * (10 ** (len(str(total_ans_mul))-i-1)))
+        for el in array:
+            ans_1_add += numbers[str(el)] + ' '
+        print(ans_1_add)
+    
+    
+
+if 'минус' in operands:
+    for i in range(len(operands)):
+        if numbers[operands[i]]:
+            if str(numbers[operands[i]]).isdigit():
+                minus_array.append(numbers[operands[i]])
+            ans = minus_array[0] - minus_array[-1]
+
+    if 0 <= ans <= 19:
+        print(numbers[str(ans)])
+    elif ans > 19 and ans%10 == 0:
+        print(numbers[str(ans)])
+    else:
+        for i in range(len(str(ans))):
+            array.append(int(str(ans)[i]) * (10 ** (len(str(ans))-i-1)))
+        for el in array:
+            ans_1 += numbers[str(el)] + ' '
+        print(ans_1)
